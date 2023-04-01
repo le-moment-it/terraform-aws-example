@@ -1,0 +1,39 @@
+on:
+  pull_request_target:
+    types:
+      - "opened"
+    branches:
+      - main
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  comment_pull_request:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: "refs/pull/${{ github.event.number }}/merge"
+          fetch-depth: 0
+
+      - name: Perform semantic version
+        uses: paulhatch/semantic-version@v5.0.3
+        id: semantic_version
+        with:
+          tag_prefix: "v"
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
+          version_format: "${major}.${minor}.${patch}-rc${increment}"
+          user_format_type: "csv"
+          bump_each_commit: false
+          search_commit_body: true
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            :rocket: The next version will be **${{ steps.semantic_version.outputs.version_tag }}** ! :rocket:

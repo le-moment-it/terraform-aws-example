@@ -1,4 +1,11 @@
 # CHANGELOG.md
+## v2.0.0 - 01-04-2023
+## 🚀 Features
+
+- (MAJOR) feat: change resource name and add documentation
+   - PR: #4
+
+
 ## v1.1.0 - 01-04-2023
 ## 🚀 Features
 

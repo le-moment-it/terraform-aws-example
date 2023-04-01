@@ -9,3 +9,9 @@ variable "availability_zone" {
   description = "availability zone to deploy the ebs"
   default     = "us-west-2a"
 }
+
+variable "type" {
+  type        = string
+  description = "Define ebs volume type"
+  default     = "gp3"
+}
